@@ -21,8 +21,8 @@ import time
 import logging
 import os
 import sys
-from Tkinter import *
-from ttk import *
+#from Tkinter import *
+#from ttk import *
 from random import randint
 
 import numpy as np
@@ -51,8 +51,8 @@ class QAModel(object):
           word2id: dictionary mapping word (string) to word idx (int)
           emb_matrix: numpy array shape (400002, embedding_size) containing pre-traing GloVe embeddings
         """
-        print "Initializing the QAModel..."
-        print FLAGS.learning_rate
+        print("Initializing the QAModel...")
+        #print FLAGS.learning_rate
         self.FLAGS = FLAGS
         self.id2word = id2word
         self.word2id = word2id
@@ -419,7 +419,7 @@ class QAModel(object):
         # Calculate average loss
         total_num_examples = sum(batch_lengths)
         toc = time.time()
-        print "Computed dev loss over %i examples in %.2f seconds" % (total_num_examples, toc-tic)
+        print("Computed dev loss over %i examples in %.2f seconds" % (total_num_examples, toc-tic))
 
         # Overall loss is total loss divided by total number of examples
         dev_loss = sum(loss_per_batch) / float(total_num_examples)
@@ -508,98 +508,91 @@ class QAModel(object):
         return f1_total, em_total
 
 
+    # def show(self, session, context_path, qn_path, ans_path, dataset, num_samples=1):
+    #     example_num = 0
+
+    #     for batch in get_batch_generator(self.word2id, context_path, qn_path, ans_path, self.FLAGS.batch_size,
+    #                                      context_len=self.FLAGS.context_len, question_len=self.FLAGS.question_len,
+    #                                      discard_long=False):
+
+    #         pred_start_pos, pred_end_pos = self.get_start_end_pos(session, batch)
+    #         pred_start_pos = pred_start_pos.tolist()  # list length batch_size
+    #         pred_end_pos = pred_end_pos.tolist()
+
+    #         for ex_idx, (pred_ans_start, pred_ans_end, true_ans_tokens) in enumerate(
+    #                 zip(pred_start_pos, pred_end_pos, batch.ans_tokens)):
+    #             example_num += 1
+
+    #             pred_ans_tokens = batch.context_tokens[ex_idx][pred_ans_start: pred_ans_end + 1]
+
+    #             answer = " ".join(pred_ans_tokens)
+
+    #             context_tokens = [w if w in self.word2id else "_%s_" % w for w in batch.context_tokens[ex_idx]]
+    #             context = " ".join(context_tokens)
+
+    #             question = " ".join(batch.qn_tokens[ex_idx])
+
+    #             if num_samples != 0 and example_num >= num_samples:
+    #                 break
+
+    #         if num_samples != 0 and example_num >= num_samples:
+    #             break
+
+    #     def generate_random():
+    #         text1.delete('1.0', END)
+    #         text2.delete('1.0', END)
+
+    #         text1.insert(INSERT,context)
+    #         text2.insert(INSERT,question)
 
 
-
-    def show(self, session, context_path, qn_path, ans_path, dataset, num_samples=1):
-        example_num = 0
-
-        for batch in get_batch_generator(self.word2id, context_path, qn_path, ans_path, self.FLAGS.batch_size,
-                                         context_len=self.FLAGS.context_len, question_len=self.FLAGS.question_len,
-                                         discard_long=False):
-
-            pred_start_pos, pred_end_pos = self.get_start_end_pos(session, batch)
-            pred_start_pos = pred_start_pos.tolist()  # list length batch_size
-            pred_end_pos = pred_end_pos.tolist()
-
-            for ex_idx, (pred_ans_start, pred_ans_end, true_ans_tokens) in enumerate(
-                    zip(pred_start_pos, pred_end_pos, batch.ans_tokens)):
-                example_num += 1
-
-                pred_ans_tokens = batch.context_tokens[ex_idx][pred_ans_start: pred_ans_end + 1]
-
-                answer = " ".join(pred_ans_tokens)
-
-                context_tokens = [w if w in self.word2id else "_%s_" % w for w in batch.context_tokens[ex_idx]]
-                context = " ".join(context_tokens)
-
-                question = " ".join(batch.qn_tokens[ex_idx])
-
-                if num_samples != 0 and example_num >= num_samples:
-                    break
-
-            if num_samples != 0 and example_num >= num_samples:
-                break
-
-        def generate_random():
-            text1.delete('1.0', END)
-            text2.delete('1.0', END)
-
-            text1.insert(INSERT,context)
-            text2.insert(INSERT,question)
+    #     def generate_answer():
+    #         text3.delete('1.0', END)
+    #         text3.insert(INSERT,answer)
 
 
-        def generate_answer():
-            text3.delete('1.0', END)
-            text3.insert(INSERT,answer)
+    #     root=Tk()
+    #     root.title("Question Answering System")
+    #     root.geometry("650x700")
 
+    #     passage_frame = Frame(root)
+    #     passage_frame.place(x=100, y=50)
 
-        root=Tk()
-        root.title("Question Answering System")
-        root.geometry("650x700")
+    #     question_frame = Frame(root)
+    #     question_frame.place(x=100, y=270)
 
-        passage_frame = Frame(root)
-        passage_frame.place(x=100, y=50)
+    #     answer_frame = Frame(root)
+    #     answer_frame.place(x=100, y=500)
 
-        question_frame = Frame(root)
-        question_frame.place(x=100, y=270)
+    #     passage_heading = StringVar()
+    #     question_heading= StringVar()
+    #     answer_heading = StringVar()
 
-        answer_frame = Frame(root)
-        answer_frame.place(x=100, y=500)
+    #     text1 = Text(passage_frame, height= 10, width=60)
+    #     passage_label = Message(passage_frame, textvariable=passage_heading, width=100, relief = RAISED)
+    #     passage_heading.set("Passage")
+    #     passage_label.pack()
+    #     text1.pack()
 
-        passage_heading = StringVar()
-        question_heading= StringVar()
-        answer_heading = StringVar()
+    #     text2 = Text(question_frame, height= 10, width=60)
+    #     question_label = Message(question_frame, textvariable=question_heading, width=100, relief = RAISED)
+    #     question_heading.set("Question")
+    #     question_label.pack()
+    #     text2.pack()
 
-        text1 = Text(passage_frame, height= 10, width=60)
-        passage_label = Message(passage_frame, textvariable=passage_heading, width=100, relief = RAISED)
-        passage_heading.set("Passage")
-        passage_label.pack()
-        text1.pack()
+    #     text3 = Text(answer_frame, height= 4, width=60)
+    #     answer_label = Message(answer_frame, textvariable=answer_heading, width=100, relief = RAISED)
+    #     answer_heading.set("Answer")
+    #     answer_label.pack()
+    #     text3.pack()
 
-        text2 = Text(question_frame, height= 10, width=60)
-        question_label = Message(question_frame, textvariable=question_heading, width=100, relief = RAISED)
-        question_heading.set("Question")
-        question_label.pack()
-        text2.pack()
+    #     button1 = Button(root, text="Generate Random QandP", command=generate_random)
+    #     button1.place(x=90,y=620)
 
-        text3 = Text(answer_frame, height= 4, width=60)
-        answer_label = Message(answer_frame, textvariable=answer_heading, width=100, relief = RAISED)
-        answer_heading.set("Answer")
-        answer_label.pack()
-        text3.pack()
+    #     button2 = Button(root, text="Generate Answer",command=generate_answer)
+    #     button2.place(x=450,y=620)
 
-        button1 = Button(root, text="Generate Random QandP", command=generate_random)
-        button1.place(x=90,y=620)
-
-        button2 = Button(root, text="Generate Answer",command=generate_answer)
-        button2.place(x=450,y=620)
-
-        mainloop()
-
-
-
-
+    #     mainloop()
 
 
     def train(self, session, train_context_path, train_qn_path, train_ans_path, dev_qn_path, dev_context_path, dev_ans_path):

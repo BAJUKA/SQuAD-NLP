@@ -94,17 +94,17 @@ def maybe_download(url, filename, prefix, num_bytes=None):
     local_filename = None
     if not os.path.exists(os.path.join(prefix, filename)):
         try:
-            print "Downloading file {}...".format(url + filename)
+            print("Downloading file {}...".format(url + filename))
             with tqdm(unit='B', unit_scale=True, miniters=1, desc=filename) as t:
                 local_filename, _ = urlretrieve(url + filename, os.path.join(prefix, filename), reporthook=reporthook(t))
         except AttributeError as e:
-            print "An error occurred when downloading the file! Please get the dataset using a browser."
+            print("An error occurred when downloading the file! Please get the dataset using a browser.")
             raise e
     # We have a downloaded file
     # Check the stats and make sure they are ok
     file_stats = os.stat(os.path.join(prefix, filename))
     if num_bytes is None or file_stats.st_size == num_bytes:
-        print "File {} successfully loaded".format(filename)
+        print("File {} successfully loaded".format(filename))
     else:
         raise Exception("Unexpected dataset size. Please get the dataset using a browser.")
 
@@ -230,10 +230,10 @@ def preprocess_and_write(dataset, tier, out_dir):
 
                 num_exs += 1
 
-    print "Number of (context, question, answer) triples discarded due to char -> token mapping problems: ", num_mappingprob
-    print "Number of (context, question, answer) triples discarded because character-based answer span is unaligned with tokenization: ", num_tokenprob
-    print "Number of (context, question, answer) triples discarded due character span alignment problems (usually Unicode problems): ", num_spanalignprob
-    print "Processed %i examples of total %i\n" % (num_exs, num_exs + num_mappingprob + num_tokenprob + num_spanalignprob)
+    print("Number of (context, question, answer) triples discarded due to char -> token mapping problems: ", num_mappingprob)
+    print("Number of (context, question, answer) triples discarded because character-based answer span is unaligned with tokenization: ", num_tokenprob)
+    print("Number of (context, question, answer) triples discarded due character span alignment problems (usually Unicode problems): ", num_spanalignprob)
+    print("Processed %i examples of total %i\n" % (num_exs, num_exs + num_mappingprob + num_tokenprob + num_spanalignprob))
 
     # shuffle examples
     indices = range(len(examples))
@@ -257,8 +257,8 @@ def preprocess_and_write(dataset, tier, out_dir):
 def main():
     args = setup_args()
 
-    print "Will download SQuAD datasets to {}".format(args.data_dir)
-    print "Will put preprocessed SQuAD datasets in {}".format(args.data_dir)
+    print("Will download SQuAD datasets to {}".format(args.data_dir))
+    print("Will put preprocessed SQuAD datasets in {}".format(args.data_dir))
 
     if not os.path.exists(args.data_dir):
         os.makedirs(args.data_dir)
@@ -271,7 +271,7 @@ def main():
 
     # read train set
     train_data = data_from_json(os.path.join(args.data_dir, train_filename))
-    print "Train data has %i examples total" % total_exs(train_data)
+    print("Train data has %i examples total" % total_exs(train_data))
 
     # preprocess train set and write to file
     preprocess_and_write(train_data, 'train', args.data_dir)
@@ -281,7 +281,7 @@ def main():
 
     # read dev set
     dev_data = data_from_json(os.path.join(args.data_dir, dev_filename))
-    print "Dev data has %i examples total" % total_exs(dev_data)
+    print("Dev data has %i examples total" % total_exs(dev_data))
 
     # preprocess dev set and write to file
     preprocess_and_write(dev_data, 'dev', args.data_dir)
