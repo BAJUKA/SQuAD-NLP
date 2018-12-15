@@ -37,4 +37,5 @@ These are some of the images of the question answered by the model along with th
 ## Future Work
 * Analyze the results produced by the model to understand where it has gone wrong so that I can make changes to improve on these(like smart span!).
 * Improve the R-NET model as I am not satisfied with the F1 score. The fault may be in the implementation of the answer pointer which is not giving the expected results.
+* Implement a GUI interface which accepts the question and passage and displays the answer.
 * Experiment more. I have just started exploring the question answering domain and want to implement and experiment with more papers as I read them.
